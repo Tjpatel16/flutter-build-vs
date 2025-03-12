@@ -7,6 +7,11 @@
     "author": {
         "name": "Tejas Patel"
     },
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/Tjpatel16/flutter-build-vs"
+    },
+    "license": "MIT",
     "categories": [
         "Other",
         "Programming Languages",
