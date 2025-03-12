@@ -76,7 +76,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         case "showProjectMenu":
           interface ProjectAction extends vscode.QuickPickItem {
-            type: "rename" | "logo";
+            type: "rename" | "icon";
           }
 
           const items: ProjectAction[] = [
@@ -89,7 +89,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             {
               label: "Change App Icon",
               description: "Update the app icon of the project",
-              type: "logo",
+              type: "icon",
             },
           ];
 

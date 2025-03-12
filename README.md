@@ -1,71 +1,62 @@
-# flutter-build README
+# Flutter Build
 
-This is the README for your extension "flutter-build". After writing up a brief description, we recommend including the following sections.
+A Visual Studio Code extension that simplifies Flutter app configuration tasks. Easily rename your Flutter application and update app icons across both Android and iOS platforms with a user-friendly interface.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### 1. App Renaming
+Quickly rename your Flutter application, including:
+- App display name
+- Package name/Bundle identifier
+- Platform-specific configurations for Android and iOS
+- Automatic updates across all necessary configuration files
 
-For example if there is an image subfolder under your extension project workspace:
+![App Renaming Interface](resources/ss1.png)
 
-\!\[feature X\]\(images/feature-x.png\)
+### 2. App Icon Management
+Update your app icons with ease:
+- Single interface for both Android and iOS platforms
+- Support for high-resolution PNG images
+- Automatic icon resizing for all required dimensions
+- Platform-specific icon generation
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![App Icon Management](resources/ss2.png)
 
 ## Requirements
+- Flutter SDK installed and configured
+- A Flutter project with Android and/or iOS platforms
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Usage
 
-## Extension Settings
+1. Click on the Flutter Build icon in the Activity Bar (side bar)
+2. Select or open your Flutter project
+3. Choose an option from the context menu:
+   - Rename App: Update your app's name and package identifier
+   - Change App Icon: Update your app's icon for Android and iOS
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### For Renaming App
+1. Enter new app name
+2. Enter new package name
+3. Select target platforms (Android/iOS)
+4. Click "Update Project"
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### For Changing App Icon
+1. Select your PNG icon file (recommended: 1024x1024)
+2. Select target platforms (Android/iOS)
+3. Click "Update App Icon"
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
+Initial release with core features:
+- App renaming functionality
+- App icon management
+- Multi-platform support (Android & iOS)
 
-### 1.0.0
+## License
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+This extension is licensed under the MIT License.
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Enjoy building your Flutter apps! 🚀**

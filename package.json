@@ -1,14 +1,30 @@
 {
     "name": "flutter-build",
     "displayName": "Flutter Build",
-    "description": "",
+    "description": "A Visual Studio Code extension that simplifies Flutter app configuration tasks. Easily rename your Flutter application and update app icons across both Android and iOS platforms.",
     "version": "0.0.1",
+    "publisher": "TJPatel",
+    "author": {
+        "name": "Tejas Patel"
+    },
+    "categories": [
+        "Other",
+        "Programming Languages",
+        "Formatters"
+    ],
+    "keywords": [
+        "flutter",
+        "dart",
+        "android",
+        "ios",
+        "rename",
+        "app icon",
+        "Flutter Build"
+    ],
+    "icon": "resources/flutter-build.png",
     "engines": {
         "vscode": "^1.98.0"
     },
-    "categories": [
-        "Other"
-    ],
     "activationEvents": [],
     "main": "./dist/extension.js",
     "contributes": {
@@ -17,7 +33,7 @@
                 {
                     "id": "flutter-build",
                     "title": "Flutter Build",
-                    "icon": "resources/tools-line.png"
+                    "icon": "resources/flutter-build.png"
                 }
             ]
         },
@@ -26,7 +42,8 @@
                 {
                     "id": "flutter-build-view",
                     "name": "Projects",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "resources/flutter-build.png"
                 }
             ]
         },
