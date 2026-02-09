@@ -1,25 +1,25 @@
 import * as vscode from "vscode";
 import {
-  addFlutterProject,
-  getFlutterProjects,
-  removeFlutterProject,
+    addFlutterProject,
+    getFlutterProjects,
+    removeFlutterProject,
 } from "../utils/FileUtils";
 import { TabManager } from "./TabManager";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "flutter-build-view";
+    public static readonly viewType = "flutter-build-view";
 
-  private _view?: vscode.WebviewView;
+    private _view?: vscode.WebviewView;
 
-  constructor(private readonly _context: vscode.ExtensionContext) {}
+    constructor(private readonly _context: vscode.ExtensionContext) { }
 
-  // Add method to update the view
-  private updateView() {
-    if (this._view) {
-      const projects = getFlutterProjects();
-      const projectList = projects
-        .map(
-          (p: string) => `
+    // Add method to update the view
+    private updateView() {
+        if (this._view) {
+            const projects = getFlutterProjects();
+            const projectList = projects
+                .map(
+                    (p: string) => `
                 <div class="project-item" onclick="showProjectMenu('${p}')">
                     <div class="project-info">
                         <div class="project-icon">
@@ -27,96 +27,96 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                         </div>
                         <div class="project-details">
                             <span class="project-name">${p
-                              .split("/")
-                              .pop()}</span>
+                            .split("/")
+                            .pop()}</span>
                             <span class="project-path">${p}</span>
                         </div>
                     </div>
                     <div class="project-actions">
                         <button class="action-btn" onclick="event.stopPropagation(); removeProject('${p}')" title="Remove from History">
-                            <i class="codicon codicon-trash"></i>
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                         </button>
                     </div>
                 </div>
             `
-        )
-        .join("");
+                )
+                .join("");
 
-      this._view.webview.html = this._getWebviewContent(projectList, projects);
+            this._view.webview.html = this._getWebviewContent(projectList, projects);
+        }
     }
-  }
 
-  public resolveWebviewView(webviewView: vscode.WebviewView): void {
-    this._view = webviewView;
+    public resolveWebviewView(webviewView: vscode.WebviewView): void {
+        this._view = webviewView;
 
-    // Set webview options
-    webviewView.webview.options = {
-      enableScripts: true,
-      localResourceRoots: [this._context.extensionUri],
-    };
+        // Set webview options
+        webviewView.webview.options = {
+            enableScripts: true,
+            localResourceRoots: [this._context.extensionUri],
+        };
 
-    this.updateView();
+        this.updateView();
 
-    // Set up message handler
-    webviewView.webview.onDidReceiveMessage(async (message) => {
-      switch (message.command) {
-        case "openProject":
-          // TabManager.show(message.projectPath);
-          break;
-        case "openProjectDialog":
-          await addFlutterProject();
-          this.updateView(); // Refresh view after adding project
-          break;
-        case "removeProject":
-          await removeFlutterProject(message.projectPath);
-          this.updateView(); // Refresh view after removing project
-          break;
-        case "createNewProject":
-          await vscode.commands.executeCommand("flutter.createProject");
-          break;
-        case "showProjectMenu":
-          interface ProjectAction extends vscode.QuickPickItem {
-            type: "rename" | "icon";
-          }
+        // Set up message handler
+        webviewView.webview.onDidReceiveMessage(async (message) => {
+            switch (message.command) {
+                case "openProject":
+                    // TabManager.show(message.projectPath);
+                    break;
+                case "openProjectDialog":
+                    await addFlutterProject();
+                    this.updateView(); // Refresh view after adding project
+                    break;
+                case "removeProject":
+                    await removeFlutterProject(message.projectPath);
+                    this.updateView(); // Refresh view after removing project
+                    break;
+                case "createNewProject":
+                    await vscode.commands.executeCommand("flutter.createProject");
+                    break;
+                case "showProjectMenu":
+                    interface ProjectAction extends vscode.QuickPickItem {
+                        type: "rename" | "icon";
+                    }
 
-          const items: ProjectAction[] = [
-            {
-              label: "Rename App Name & Package",
-              description:
-                "Rename the app name and package name of the project",
-              type: "rename",
-            },
-            {
-              label: "Change App Icon",
-              description: "Update the app icon of the project",
-              type: "icon",
-            },
-          ];
+                    const items: ProjectAction[] = [
+                        {
+                            label: "Rename App Name & Package",
+                            description:
+                                "Rename the app name and package name of the project",
+                            type: "rename",
+                        },
+                        {
+                            label: "Change App Icon",
+                            description: "Update the app icon of the project",
+                            type: "icon",
+                        },
+                    ];
 
-          const selection = await vscode.window.showQuickPick(items, {
-            placeHolder: "Select an action",
-          });
+                    const selection = await vscode.window.showQuickPick(items, {
+                        placeHolder: "Select an action",
+                    });
 
-          if (selection) {
-            TabManager.show(message.projectPath, selection.type);
-          }
-          break;
-      }
-    });
-  }
+                    if (selection) {
+                        TabManager.show(message.projectPath, selection.type);
+                    }
+                    break;
+            }
+        });
+    }
 
-  private _getWebviewContent(projectList: string, projects: string[]): string {
-    const codiconsUri = this._view?.webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._context.extensionUri,
-        "node_modules",
-        "@vscode/codicons",
-        "dist",
-        "codicon.css"
-      )
-    );
+    private _getWebviewContent(projectList: string, projects: string[]): string {
+        const codiconsUri = this._view?.webview.asWebviewUri(
+            vscode.Uri.joinPath(
+                this._context.extensionUri,
+                "node_modules",
+                "@vscode/codicons",
+                "dist",
+                "codicon.css"
+            )
+        );
 
-    return /*html*/ `
+        return /*html*/ `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -222,11 +222,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     }
 
                     .action-btn {
-                        background: transparent;
+                        background: #1f2428;
                         border: none;
                         color: var(--vscode-foreground);
                         cursor: pointer;
-                        padding: 6px;
+                        padding: 5px;
                         border-radius: 4px;
                         display: flex;
                         align-items: center;
@@ -291,9 +291,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 </style>
             </head>
             <body>
-                ${
-                  projects.length > 0
-                    ? `
+                ${projects.length > 0
+                ? `
                     <div class="header">
                         <button class="primary-btn" onclick="openProjectDialog()">
                             <i class="codicon codicon-folder-opened"></i>
@@ -304,7 +303,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                         ${projectList}
                     </div>
                 `
-                    : `
+                : `
                     <div class="empty-state">
                         <i class="codicon codicon-flutter empty-icon"></i>
                         <h3 class="empty-title">No Flutter Projects Found</h3>
@@ -322,7 +321,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                         </div>
                     </div>
                 `
-                }
+            }
                 <script>
                     const vscode = acquireVsCodeApi();
                     
@@ -352,5 +351,5 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             </body>
             </html>
         `;
-  }
+    }
 }
